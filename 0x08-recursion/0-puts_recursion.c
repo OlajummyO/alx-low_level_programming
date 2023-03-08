@@ -1,4 +1,4 @@
-i#include "main.h"
+#include "main.h"
 /**
  * _puts_recursion - function like puts();
  * @s: input
