@@ -1,43 +1,52 @@
 #include "lists.h"
 
-int delete_dnodeint_at_index(dlistint_t **head, unsigned int index) {
-    if (head == NULL || *head == NULL) {
-        return -1;  // Failed due to empty list
-    }
+/**
+ * delete_dnodeint_at_index - deletes the node at index of a
+ * dlistint_t linked list
+ *
+ * @head: head of the list
+ * @index: index of the new node
+ * Return: 1 if it succeeded, -1 if it failed
+ */
+int delete_dnodeint_at_index(dlistint_t **head, unsigned int index)
+{
+	dlistint_t *h1;
+	dlistint_t *h2;
+	unsigned int i;
 
-    dlistint_t *current = *head;
-    unsigned int current_idx = 0;
+	h1 = *head;
 
-    // Handle deletion at index 0
-    if (index == 0) {
-        *head = current->next;
-        if (*head != NULL) {
-            (*head)->prev = NULL;
-        }
-        free(current);
-        return 1;  // Successfully deleted node at index 0
-    }
+	if (h1 != NULL)
+		while (h1->prev != NULL)
+			h1 = h1->prev;
 
-    // Traverse to the node at the specified index
-    while (current != NULL && current_idx < index) {
-        current = current->next;
-        current_idx++;
-    }
+	i = 0;
 
-    if (current == NULL) {
-        return -1;  // Failed due to invalid index
-    }
+	while (h1 != NULL)
+	{
+		if (i == index)
+		{
+			if (i == 0)
+			{
+				*head = h1->next;
+				if (*head != NULL)
+					(*head)->prev = NULL;
+			}
+			else
+			{
+				h2->next = h1->next;
 
-    // Update the previous node's next pointer
-    if (current->prev != NULL) {
-        current->prev->next = current->next;
-    }
+				if (h1->next != NULL)
+					h1->next->prev = h2;
+			}
 
-    // Update the next node's prev pointer
-    if (current->next != NULL) {
-        current->next->prev = current->prev;
-    }
+			free(h1);
+			return (1);
+		}
+		h2 = h1;
+		h1 = h1->next;
+		i++;
+	}
 
-    free(current);
-    return 1;  // Successfully deleted node at the specified index
+	return (-1);
 }
